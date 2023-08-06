@@ -1,15 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const expensesRouter = require('./routes/expenses');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/expenses', expensesRouter);
 
 // MongoDB connection
-const mongoURI = 'your_mongodb_connection_string';
+const mongoURI = 'mongodb://localhost:27017';
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -19,11 +21,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
 });
-
-// Define routes for CRUD operations
-// You will implement these routes in later steps
-const expensesRouter = require('./routes/expenses');
-app.use('/expenses', expensesRouter);
 
 // Start the server
 app.listen(PORT, () => {
