@@ -114,13 +114,12 @@ router.patch('/:id', getExpense, async (req, res) => {
 
 // DELETE an expense
 router.delete('/:id', getExpense, async (req, res) => {
-  try {
-    await res.expense.remove();
-    res.json({ message: 'Expense deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+    try {
+      await Expense.findOneAndDelete({ _id: req.params.id });
+      res.json({ message: 'Expense deleted' });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 module.exports = router;
